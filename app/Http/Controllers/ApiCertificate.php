@@ -166,8 +166,8 @@ class ApiCertificate extends SslController
             $certificateData->setProduct('SSL123');
 
             $csr = $this->generateCsr($request->name);
-
-            $certificateData->setPlain($csr);
+Log::debug(print_r($csr,true));
+            $certificateData->setPlain(trim($csr));
 
             $job = $domainrobot->certificate->prepareOrder($certificateData);
 

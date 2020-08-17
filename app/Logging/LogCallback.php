@@ -7,17 +7,14 @@ use Illuminate\Support\Facades\Log;
 
 class LogCallback
 {
-    public static function dailyRequest($method, $url, $options, $user)
+    public static function dailyRequest($method, $url, $options, $headers)
     {
         Log::channel('daily-request')->info(print_r(
-            "[".(!empty($user->email)?$user->email:"n/a")."]". // user
-            "[".(!empty($user->adns_user_id)?$user->adns_user_id:"n/a")."]". // adns user
-            "[".app('Request')->getRequestType()."]". // requestType
-            "[".app('realIP')."]". // ip
+            "[".\json_encode($headers)."]". // headers
             "[".$method."]". // type
             "[".$url."]". // url
             "[".Carbon::now()->format('Y-m')."]". // month
-            json_encode(array_filter($options, function ($value, $key) {
+            \json_encode(array_filter($options, function ($value, $key) {
                 if (in_array($key, array("auth", "on_stats", "timeout"))) {
                     return false;
                 }
@@ -27,13 +24,9 @@ class LogCallback
         ));
     }
 
-    public static function dailyResponse($url, $response, $statusCode, $exectime, $user)
+    public static function dailyResponse($url, $response, $statusCode, $exectime)
     {
         Log::channel('daily-response')->info(print_r(
-            "[".(!empty($user->email)?$user->email:"n/a")."]". // user
-            "[".(!empty($user->adns_user_id)?$user->adns_user_id:"n/a")."]". // adns user
-            "[".app('Request')->getRequestType()."]". // requestType
-            "[".app('realIP')."]". // ip
             "[".$url."]". // url
             "[".$statusCode."]". // status
             "[".$exectime."]". // exectime

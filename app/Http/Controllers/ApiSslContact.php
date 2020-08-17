@@ -12,6 +12,7 @@ use Domainrobot\Model\Query;
 use Domainrobot\Model\QueryFilter;
 use Domainrobot\Model\QueryView;
 use Domainrobot\Model\ObjectJob;
+use Illuminate\Support\Arr;
 
 class ApiSslContact extends SslController
 {
@@ -47,7 +48,6 @@ class ApiSslContact extends SslController
         $domainrobot = $this->getDomainrobot();
         
         try {
-
             $sslContact = new SslContact();
 
             $sslContact->setOrganization($request->organization ?? '');
@@ -66,7 +66,7 @@ class ApiSslContact extends SslController
             $sslContact->setPhone($request->phone ?? '');
             $sslContact->setFax($request->fax ?? '');
 
-            $job = $domainrobot->sslContact->create($sslContact);
+            $newSslContact = $domainrobot->sslContact->create($sslContact);
 
         } catch (DomainrobotException $exception) {
             return response()->json(
@@ -90,15 +90,17 @@ class ApiSslContact extends SslController
     /**
      * Get an SslContact Info
      * 
-     * @param  ApiSslContactRequest $request
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function info(ApiSslContactRequest $request) 
+    public function info($id) 
     {
         $domainrobot = $this->getDomainrobot();
 
         try {
-            $sslContact = $domainrobot->sslContact->info($request->id);
+
+            // Domainrobot\Model\SslContact
+            $sslContact = $domainrobot->sslContact->info($id);
         } catch (DomainrobotException $exception) {
             return response()->json(
                 $exception->getError(),
@@ -138,6 +140,8 @@ class ApiSslContact extends SslController
         try {
 
             $sslContact = $domainrobot->sslContact->info($request->id);
+
+            $validatedData = $request->validate();
 
             if ( isset($request->organization) ) {
                 $sslContact->setOrganization($request->organization);

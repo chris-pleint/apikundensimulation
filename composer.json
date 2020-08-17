@@ -14,7 +14,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.22.2",
         "laravel/tinker": "^2.0",
-	"internetx/php-domainrobot-sdk": "@dev"
+	    "internetx/php-domainrobot-sdk": "^0.6.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -60,14 +60,5 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
-    },
-    "repositories": [
-	{
-	    "type": "path",
-	    "url": "/mnt/c/Users/chris.pleintinger/Documents/projects/php-domainrobot-sdk",
-	    "options": {
-		"symlink": true
-	    }
-	}
-   ]
+    }
 }

@@ -54,6 +54,22 @@ return [
             'days' => 14,
         ],
 
+        'daily-request' => [
+            'driver' => 'daily',
+            'tap' => [App\Logging\CustomFormatter::class],
+            'path' => storage_path('logs/request.log'),
+            'level' => 'debug',
+            'days' => 7,
+        ],
+
+        'daily-response' => [
+            'driver' => 'daily',
+            'tap' => [App\Logging\CustomFormatter::class],
+            'path' => storage_path('logs/response.log'),
+            'level' => 'debug',
+            'days' => 7,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
