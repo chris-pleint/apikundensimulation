@@ -9,20 +9,11 @@
 
 ### How to start the Project
 
-> git clone https://github.com/chris-pleint/apikundensimulation sdk-implementation
-
-> cd sdk-implementation
-
-> composer install
-
-> npm install --no-audit
-
-> cp .env.example .env
-
-> nano .env
-
-> Edit in the file the constants nested with three hashes e.g. ###DOMAINROBOT_USER### accordingly to your AutoDNS API account. **Note** To create SSL Contacts or SSL Certificates you need the Product SSL Manager.
-
-> php artisan serve --port=8181
-
-> 
+* git clone https://github.com/chris-pleint/apikundensimulation sdk-implementation
+* cd sdk-implementation
+* composer install
+* npm install --no-audit
+* cp .env.example .env
+* nano .env
+* Edit in the file the constants nested with three hashes e.g. ###DOMAINROBOT_USER### accordingly to your AutoDNS API account. **Note** To create SSL Contacts or SSL Certificates you need the Product SSL Manager.
+* php artisan serve --port=8181
