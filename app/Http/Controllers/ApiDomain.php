@@ -42,7 +42,7 @@ class ApiDomain extends Controller
      */
     public function create(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -94,7 +94,7 @@ class ApiDomain extends Controller
      */
     public function info(ApiDomainRequest $request) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
             $domain = $domainrobot->domain->info($request->name);
@@ -136,7 +136,7 @@ class ApiDomain extends Controller
      */
     public function update(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -221,7 +221,7 @@ class ApiDomain extends Controller
      */
     public function list(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -273,7 +273,7 @@ class ApiDomain extends Controller
      */
     public function createAuthinfo1(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
             $domain = $domainrobot->domain->createAuthinfo1($request->name);
@@ -304,7 +304,7 @@ class ApiDomain extends Controller
      */
     public function deleteAuthinfo1(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
             $domain = $domainrobot->domain->deleteAuthinfo1($request->name);
@@ -335,7 +335,7 @@ class ApiDomain extends Controller
      */
     public function createAuthinfo2(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
             $domain = $domainrobot->domain->createAuthinfo2($request->name);
@@ -366,7 +366,7 @@ class ApiDomain extends Controller
      */
     public function renew(ApiDomainRequest $request) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -408,7 +408,7 @@ class ApiDomain extends Controller
      */
     public function restore(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -475,7 +475,7 @@ class ApiDomain extends Controller
      */
     public function restoreList(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -535,7 +535,7 @@ class ApiDomain extends Controller
      */
     public function transfer(ApiDomainRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 

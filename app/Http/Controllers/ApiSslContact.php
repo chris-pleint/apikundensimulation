@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApiSslContactRequest;
 use App\Http\Requests\ApiSslContactCreateRequest;
 use Domainrobot\Lib\DomainrobotException;
 use Domainrobot\Model\SslContact;
@@ -14,7 +13,7 @@ use Domainrobot\Model\QueryView;
 use Domainrobot\Model\ObjectJob;
 use Illuminate\Support\Arr;
 
-class ApiSslContact extends SslController
+class ApiSslContact extends Controller
 {
     /*
     Create Example Request
@@ -45,7 +44,7 @@ class ApiSslContact extends SslController
      */
     public function create(ApiSslContactCreateRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
         
         try {
             $sslContact = new SslContact();
@@ -95,7 +94,7 @@ class ApiSslContact extends SslController
      */
     public function info($id) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 
@@ -130,18 +129,16 @@ class ApiSslContact extends SslController
     /**
      * Update an existing Contact
      * 
-     * @param  ApiSslContactRequest $request
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ApiSslContactRequest $request)
+    public function update(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 
             $sslContact = $domainrobot->sslContact->info($request->id);
-
-            $validatedData = $request->validate();
 
             if ( isset($request->organization) ) {
                 $sslContact->setOrganization($request->organization);
@@ -218,15 +215,15 @@ class ApiSslContact extends SslController
     /**
      * Delete an existing SslContact
      * 
-     * @param  ApiSslContactRequest $request
+     * @param  integer $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(ApiSslContactRequest $request)
+    public function delete($id)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
-            $job = $domainrobot->sslContact->delete($request->id);
+            $job = $domainrobot->sslContact->delete($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
@@ -268,7 +265,7 @@ class ApiSslContact extends SslController
      */
     public function list(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 

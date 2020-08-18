@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApiCertificateRequest;
+use App\Http\CsrUtility;
 use App\Http\Requests\ApiCertificateCreateRequest;
 use App\Http\Requests\ApiCertificatePrepareOrderRequest;
+use App\Http\Utilities;
 use Domainrobot\Lib\DomainrobotException;
 use Domainrobot\Model\AuthMethodConstants;
 use Domainrobot\Model\CertAuthentication;
@@ -19,7 +20,7 @@ use Domainrobot\Model\Query;
 use Domainrobot\Model\QueryFilter;
 use Domainrobot\Model\QueryView;
 
-class ApiCertificate extends SslController
+class ApiCertificate extends Controller
 {
     /*
     Create Example Request
@@ -39,7 +40,7 @@ class ApiCertificate extends SslController
      */
     public function create(ApiCertificateCreateRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 
@@ -61,7 +62,9 @@ class ApiCertificate extends SslController
                 'method' => AuthMethodConstants::FILE
             ]));
 
-            $csr = $this->generateCsr($request->name);
+            $csrUtility = new CsrUtility();
+
+            $csr = $csrUtility->generateCsr($request->name);
     
             $certificate->setCsr($csr);
 
@@ -98,7 +101,7 @@ class ApiCertificate extends SslController
      */
     public function createRealtime(ApiCertificateCreateRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 
@@ -120,7 +123,9 @@ class ApiCertificate extends SslController
                 'method' => AuthMethodConstants::FILE
             ]));
 
-            $csr = $this->generateCsr($request->name);
+            $csrUtility = new CsrUtility();
+
+            $csr = $csrUtility->generateCsr($request->name);
     
             $certificate->setCsr($csr);
 
@@ -156,7 +161,7 @@ class ApiCertificate extends SslController
      */
     public function prepareOrder(ApiCertificatePrepareOrderRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 
@@ -165,8 +170,10 @@ class ApiCertificate extends SslController
     
             $certificateData->setProduct('SSL123');
 
-            $csr = $this->generateCsr($request->name);
-Log::debug(print_r($csr,true));
+            $csrUtility = new CsrUtility();
+
+            $csr = $csrUtility->generateCsr($request->name);
+
             $certificateData->setPlain(trim($csr));
 
             $job = $domainrobot->certificate->prepareOrder($certificateData);
@@ -184,30 +191,6 @@ Log::debug(print_r($csr,true));
         );
     }
 
-    /**
-     * Generate an Certificate Signing Request (csr)
-     * 
-     * @param  string commonName
-     * @return string $csrOut
-     */
-    protected function generateCsr($commonName) {
-
-        $subject = [
-            'commonName' => $commonName
-        ];
-
-        $privateKey = openssl_pkey_new([
-            'private_key_type' => OPENSSL_KEYTYPE_EC,
-            'curve_name' => 'prime256v1'
-        ]);
-
-        $csr = openssl_csr_new($subject, $privateKey, [ 'digest_alg' => 'sha384' ]);
-
-        openssl_csr_export($csr, $csrOut);
-
-        return $csrOut;
-    }
-
     /*
     Read Example Request
 
@@ -217,15 +200,15 @@ Log::debug(print_r($csr,true));
     /**
      * Get an Certificate Info
      * 
-     * @param  ApiCertificateRequest $request
+     * @param  integer $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function info(ApiCertificateRequest $request) 
+    public function info($id) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
-            $certificate = $domainrobot->certificate->info($request->id);
+            $certificate = $domainrobot->certificate->info($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
@@ -248,15 +231,15 @@ Log::debug(print_r($csr,true));
     /**
      * Delete an Certificate
      * 
-     * @param  ApiCertificateRequest $request
+     * @param  integer $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(ApiCertificateRequest $request) 
+    public function delete($id) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
-            $certificate = $domainrobot->certificate->delete($request->id);
+            $certificate = $domainrobot->certificate->delete($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
@@ -278,7 +261,7 @@ Log::debug(print_r($csr,true));
      */
     public function list(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('DomainrobotSSL');
 
         try {
 

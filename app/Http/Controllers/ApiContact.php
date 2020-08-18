@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApiContactRequest;
 use App\Http\Requests\ApiContactCreateRequest;
 use Domainrobot\Lib\DomainrobotException;
 use Domainrobot\Model\ContactTypeConstants;
@@ -50,7 +49,7 @@ class ApiContact extends Controller
      */
     public function create(ApiContactCreateRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -122,15 +121,15 @@ class ApiContact extends Controller
     /**
      * Get an Contact Info
      * 
-     * @param  ApiContactRequest $request
+     * @param  integer $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function info(ApiContactRequest $request) 
+    public function info($id) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
-            $contact = $domainrobot->contact->info($request->id);
+            $contact = $domainrobot->contact->info($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
@@ -166,12 +165,12 @@ class ApiContact extends Controller
     /**
      * Update an existing Contact
      * 
-     * @param  ApiContactRequest $request
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(ApiContactRequest $request)
+    public function update(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
@@ -260,15 +259,15 @@ class ApiContact extends Controller
     /**
      * Get an Contact Info
      * 
-     * @param  ApiContactRequest $request
+     * @param  integer $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(ApiContactRequest $request)
+    public function delete($id)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
-            $job = $domainrobot->contact->delete($request->id);
+            $job = $domainrobot->contact->delete($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
@@ -310,7 +309,7 @@ class ApiContact extends Controller
      */
     public function list(Request $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 

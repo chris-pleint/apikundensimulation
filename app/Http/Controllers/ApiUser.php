@@ -27,7 +27,7 @@ class ApiUser extends Controller
      */
     public function info(ApiUserRequest $request)
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
             $user = $domainrobot->user->info($request->username, $request->context);
@@ -67,7 +67,7 @@ class ApiUser extends Controller
      */
     public function list(Request $request) 
     {
-        $domainrobot = $this->getDomainrobot();
+        $domainrobot = app('Domainrobot');
 
         try {
 
