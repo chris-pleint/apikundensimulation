@@ -46,6 +46,7 @@ class ApiDomain extends Controller
 
         try {
 
+            // Domainrobot\Model\Domain
             $domain = new Domain();
             $domain->setName($request->name);
 
@@ -58,6 +59,7 @@ class ApiDomain extends Controller
 
             $domain->setNameServers($nameServers);
 
+            // Domainrobot\Model\Contact
             $contact = $domainrobot->contact->info($request->contact_id);
 
             $domain->setAdminc($contact);
@@ -65,6 +67,7 @@ class ApiDomain extends Controller
             $domain->setTechc($contact);
             $domain->setZonec($contact);
 
+            // Domainrobot\Model\ObjectJob
             $job = $domainrobot->domain->create($domain);
 
         } catch ( DomainrobotException $exception ) {
@@ -97,6 +100,7 @@ class ApiDomain extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
+            // Domainrobot\Model\Domain
             $domain = $domainrobot->domain->info($request->name);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -140,6 +144,7 @@ class ApiDomain extends Controller
 
         try {
 
+            // Domainrobot\Model\Domain
             $domain = $domainrobot->domain->info($request->name);
 
             if ( isset($request->comment) ) {
@@ -178,6 +183,7 @@ class ApiDomain extends Controller
                 $domain->setGeneralRequestEmail($request->generalRequestEmail);
             }
 
+            // Domainrobot\Model\ObjectJob
             $job = $domainrobot->domain->update($domain);
 
         } catch ( DomainrobotException $exception ) {
@@ -276,6 +282,7 @@ class ApiDomain extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
+            // Domainrobot\Model\Domain
             $domain = $domainrobot->domain->createAuthinfo1($request->name);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -307,7 +314,7 @@ class ApiDomain extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
-            $domain = $domainrobot->domain->deleteAuthinfo1($request->name);
+            $domainrobot->domain->deleteAuthinfo1($request->name);
         } catch  ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
@@ -338,6 +345,7 @@ class ApiDomain extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
+            // Domainrobot\Model\Domain
             $domain = $domainrobot->domain->createAuthinfo2($request->name);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -370,8 +378,10 @@ class ApiDomain extends Controller
 
         try {
 
+            // Domainrobot\Model\Domain
             $domain = $domainrobot->domain->info($request->name);
 
+            // Domainrobot\Model\ObjectJob
             $job = $domainrobot->domain->renew($domain);
 
         } catch ( DomainrobotException $exception ) {
@@ -411,7 +421,7 @@ class ApiDomain extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
-
+            // Domainrobot\Model\DomainRestore
             $domain = new DomainRestore();
             $domain->setName($request->name);
 
@@ -437,6 +447,7 @@ class ApiDomain extends Controller
                 $domain->setZonec($contact);
             }
 
+            // Domainrobot\Model\ObjectJob
             $job = $domainrobot->domain->restore($domain);
 
         } catch ( DomainrobotException $exception ) {
@@ -539,6 +550,7 @@ class ApiDomain extends Controller
 
         try {
 
+            // Domainrobot\Model\Domain
             $domain = new Domain();
             $domain->setName($request->name);
 
@@ -572,6 +584,7 @@ class ApiDomain extends Controller
             // please refer https://help.internetx.com/display/APIXMLEN/JSON+Technical+Documentation
             // for additional configuration options
 
+            // Domainrobot\Model\ObjectJob
             $job = $domainrobot->domain->transfer($domain);
 
         } catch ( DomainrobotException $exception ) {

@@ -43,7 +43,7 @@ class ApiCertificate extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
-
+            // Domainrobot\Model\Certificate
             $certificate = new Certificate();
             $certificate->setName($request->name);
     
@@ -68,6 +68,7 @@ class ApiCertificate extends Controller
     
             $certificate->setCsr($csr);
 
+            // Domainrobot\Model\ObjectJob
             $job = $domainrobot->certificate->create($certificate);
 
         } catch ( DomainrobotException $exception ) {
@@ -104,7 +105,7 @@ class ApiCertificate extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
-
+            // Domainrobot\Model\Certificate
             $certificate = new Certificate();
             $certificate->setName($request->name);
     
@@ -129,7 +130,8 @@ class ApiCertificate extends Controller
     
             $certificate->setCsr($csr);
 
-            $job = $domainrobot->certificate->realtime($certificate);
+            // Domainrobot\Model\Certificate
+            $newCertificate = $domainrobot->certificate->realtime($certificate);
 
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -164,7 +166,7 @@ class ApiCertificate extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
-
+            // Domainrobot\Model\CertificateData
             $certificateData = new CertificateData();
             $certificateData->setName($request->name);
     
@@ -176,7 +178,8 @@ class ApiCertificate extends Controller
 
             $certificateData->setPlain(trim($csr));
 
-            $job = $domainrobot->certificate->prepareOrder($certificateData);
+            // Domainrobot\Model\CertificateData
+            $newCertificateData = $domainrobot->certificate->prepareOrder($certificateData);
 
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -208,6 +211,7 @@ class ApiCertificate extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
+            // Domainrobot\Model\Certificate
             $certificate = $domainrobot->certificate->info($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -239,7 +243,8 @@ class ApiCertificate extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
-            $certificate = $domainrobot->certificate->delete($id);
+            // Domainrobot\Model\ObjectJob
+            $job = $domainrobot->certificate->delete($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),

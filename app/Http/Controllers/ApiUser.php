@@ -30,6 +30,7 @@ class ApiUser extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
+            // Domainrobot\Model\User
             $user = $domainrobot->user->info($request->username, $request->context);
         } catch ( DomainrobotException $exception ) {
             return response()->json(

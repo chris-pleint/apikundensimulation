@@ -47,6 +47,7 @@ class ApiSslContact extends Controller
         $domainrobot = app('DomainrobotSSL');
         
         try {
+            // Domainrobot\Model\SslContact
             $sslContact = new SslContact();
 
             $sslContact->setOrganization($request->organization ?? '');
@@ -65,9 +66,10 @@ class ApiSslContact extends Controller
             $sslContact->setPhone($request->phone ?? '');
             $sslContact->setFax($request->fax ?? '');
 
+            // Domainrobot\Model\SslContact
             $newSslContact = $domainrobot->sslContact->create($sslContact);
 
-        } catch (DomainrobotException $exception) {
+        } catch ( DomainrobotException $exceptio ) {
             return response()->json(
                 $exception->getError(),
                 $exception->getStatusCode()
@@ -97,10 +99,9 @@ class ApiSslContact extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
-
             // Domainrobot\Model\SslContact
             $sslContact = $domainrobot->sslContact->info($id);
-        } catch (DomainrobotException $exception) {
+        } catch (  DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
                 $exception->getStatusCode()
@@ -138,6 +139,7 @@ class ApiSslContact extends Controller
 
         try {
 
+            // Domainrobot\Model\SslContact
             $sslContact = $domainrobot->sslContact->info($request->id);
 
             if ( isset($request->organization) ) {
@@ -191,7 +193,8 @@ class ApiSslContact extends Controller
                 $sslContact->setFax($request->fax);
             }
 
-            $job = $domainrobot->sslContact->update($sslContact);
+            // Domainrobot\Model\SslContact
+            $updatedSslContact = $domainrobot->sslContact->update($sslContact);
 
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -223,7 +226,7 @@ class ApiSslContact extends Controller
         $domainrobot = app('DomainrobotSSL');
 
         try {
-            $job = $domainrobot->sslContact->delete($id);
+            $domainrobot->sslContact->delete($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),

@@ -52,7 +52,7 @@ class ApiContact extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
-
+            // Domainrobot\Model\Contact
             $contact = new Contact();
             $contact->setType($request->type);
 
@@ -97,7 +97,8 @@ class ApiContact extends Controller
                 ])
             ]));
 
-            $job = $domainrobot->contact->create($contact);
+            // Domainrobot\Model\Contact
+            $newContact = $domainrobot->contact->create($contact);
 
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -129,6 +130,7 @@ class ApiContact extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
+            // Domainrobot\Model\Contact
             $contact = $domainrobot->contact->info($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -173,7 +175,7 @@ class ApiContact extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
-
+            // Domainrobot\Model\Contact
             $contact = $domainrobot->contact->info($request->id);
 
             if ( isset($request->alias) ) {
@@ -235,7 +237,8 @@ class ApiContact extends Controller
                 ])
             ]));
 
-            $job = $domainrobot->contact->update($contact);
+            // Domainrobot\Model\Contact
+            $updatedContact = $domainrobot->contact->update($contact);
 
         } catch ( DomainrobotException $exception ) {
             return response()->json(
@@ -257,7 +260,7 @@ class ApiContact extends Controller
     */
 
     /**
-     * Get an Contact Info
+     * Delete an existing Contact
      * 
      * @param  integer $id
      * @return \Illuminate\Http\JsonResponse
@@ -267,7 +270,7 @@ class ApiContact extends Controller
         $domainrobot = app('Domainrobot');
 
         try {
-            $job = $domainrobot->contact->delete($id);
+            $domainrobot->contact->delete($id);
         } catch ( DomainrobotException $exception ) {
             return response()->json(
                 $exception->getError(),
